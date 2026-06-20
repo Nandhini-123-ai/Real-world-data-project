@@ -1,0 +1,71 @@
+ import pandas as pd
+import matplotlib.pyplot as plt
+from sklearn.linear_model import LinearRegression
+data = {
+    "Product": [
+        "Laptop", "Mobile", "Headphones",
+        "Laptop", "Mobile", "Headphones",
+        "Laptop", "Mobile", "Headphones"
+    ],
+    "Price": [
+        50000, 20000, 2000,
+        50000, 20000, 2000,
+        50000, 20000, 2000
+    ],
+    "Quantity": [
+        5, 10, 20,
+        3, 8, 15,
+        4, 12, 18
+    ]
+}
+
+df = pd.DataFrame(data)
+
+print("===== DATASET =====")
+print(df)
+
+print("\n===== MISSING VALUES =====")
+print(df.isnull().sum())
+
+df["Total_Sales"] = df["Price"] * df["Quantity"]
+
+print("\n===== DATASET WITH TOTAL SALES =====")
+print(df)
+
+print("\n===== BASIC STATISTICS =====")
+print(df.describe())
+sales_summary = df.groupby("Product")["Total_Sales"].sum()
+
+print("\n===== PRODUCT SALES SUMMARY =====")
+print(sales_summary)
+
+plt.figure(figsize=(8, 5))
+sales_summary.plot(kind="bar")
+
+plt.title("Total Sales by Product")
+plt.xlabel("Product")
+plt.ylabel("Sales Amount (₹)")
+plt.xticks(rotation=0)
+
+plt.show()
+
+X = df[["Price"]]
+y = df["Quantity"]
+
+model = LinearRegression()
+
+model.fit(X, y)
+predicted_quantity = model.predict([[30000]])
+
+print("\n===== PREDICTION =====")
+print("Predicted Quantity for Price ₹30000:")
+print(round(predicted_quantity[0], 2))
+
+ 
+print("\n===== CONCLUSION =====")
+print("1. Data loaded successfully.")
+print("2. Total sales calculated.")
+print("3. Product-wise sales analyzed.")
+print("4. Sales visualization created.")
+print("5. Linear Regression model trained.")
+print("6. Quantity prediction completed.")
